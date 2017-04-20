@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>chatApp</display-name>
+  <welcome-file-list>
+    <welcome-file>Servlet</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>url</param-name>
+    <param-value>
+		jdbc:postgresql://gegevensbanken.khleuven.be:51617/2TX31
+	</param-value>
+  </context-param>
+  <context-param>
+    <param-name>user</param-name>
+    <param-value>r0466226</param-value>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value></param-value>
+  </context-param>
+  <context-param>
+    <param-name>ssl</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  <context-param>
+    <param-name>sslfactory</param-name>
+    <param-value>org.postgresql.ssl.NonValidatingFactory</param-value>
+  </context-param>
+</web-app>
