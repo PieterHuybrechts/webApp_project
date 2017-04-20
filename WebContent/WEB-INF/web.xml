@@ -16,7 +16,7 @@
   </context-param>
   <context-param>
     <param-name>password</param-name>
-    <param-value></param-value>
+    <param-value>Ez4kieokh!</param-value>
   </context-param>
   <context-param>
     <param-name>ssl</param-name>
