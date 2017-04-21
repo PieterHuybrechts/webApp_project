@@ -39,7 +39,6 @@ function getData(){
 			//var statusParagraph = statusDiv.childNodes[0];
 			var statusParagraph = document.getElementById("statusP");
 			
-			
 			var statusText = document.createTextNode(response);
 			statusParagraph.removeChild(statusParagraph.childNodes[0]);
 			statusParagraph.appendChild(statusText);

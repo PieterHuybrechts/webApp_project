@@ -46,4 +46,16 @@ public class FriendDbMemory implements FriendDb{
 		return users;
 	}
 
+	@Override
+	public void addFriend(String user1_email, String user2_email) throws DbException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<User> getAllFriendsOf(String email) throws DbException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
