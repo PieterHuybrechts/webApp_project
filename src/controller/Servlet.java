@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import db.DbException;
 import domain.DomainException;
 import domain.User;
+import service.FriendService;
 import service.MenuItem;
 import service.ServiceException;
 import service.UserService;
@@ -26,6 +27,7 @@ public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private UserService userService;
+	private FriendService friendService;
 
 	public Servlet() {
 		super();
@@ -44,6 +46,7 @@ public class Servlet extends HttpServlet {
 		properties.setProperty("sslfactory", context.getInitParameter("sslfactory"));
 		try {
 			userService = new UserService(properties);
+			friendService = new FriendService(properties);
 		} catch (DbException e) {
 			e.printStackTrace();
 		}
@@ -169,14 +172,28 @@ public class Servlet extends HttpServlet {
 
 	private String goToChat(HttpServletRequest request, HttpServletResponse response) {
 		String destination = "chat.jsp";
-		request.setAttribute("user", request.getSession().getAttribute("user"));
+		List<String> errorMessages = new ArrayList<>();
+		
+		User u = (User) request.getSession().getAttribute("user");
+		request.setAttribute("user", u);
+		
 		List<User> users;
 		try {
 			users = userService.getAllUsers();
 			request.setAttribute("users", users);
 		} catch (ServiceException e) {
-			List<String> errorMessages = new ArrayList<>();
 			errorMessages.add(e.getMessage());
+		}
+		
+		List<User> friends;
+		try{
+			friends = friendService.getAllFriendsOf(u);
+			request.setAttribute("friends", friends);
+		}catch (ServiceException e) {
+			errorMessages.add(e.getMessage());
+		}
+		
+		if(!errorMessages.isEmpty()){
 			request.setAttribute("errorMessages", errorMessages);
 			destination = "index.jsp";
 		}

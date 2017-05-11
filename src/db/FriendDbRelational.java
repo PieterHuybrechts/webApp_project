@@ -51,7 +51,7 @@ public class FriendDbRelational implements FriendDb{
 	
 	@Override
 	public void addFriend(String user1_email, String user2_email) throws DbException {
-		String sql = "insert into r0466226_webApp.friends(user1_email,user1_email) values(?,?)";
+		String sql = "insert into r0466226_webApp.friends(user1_email,user2_email) values(?,?)";
 		
 		try {
 			createConnection();

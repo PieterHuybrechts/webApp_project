@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
 <script type="text/javascript" src="js/status.js"></script>
+<script type="text/javascript" src="js/friend.js"></script>
+<title>Insert title here</title>
 </head>
 <body>
 	<jsp:include page="title.jsp">
@@ -45,14 +46,21 @@
 
 	<article>
 		<h2>Friends</h2>
+		<div id="friends">
+			<ul id="friendsL">
+				<c:forEach var="friend" items="${friends}">
+					<li>${friend.username}</li>
+				</c:forEach>
+			</ul>
+		</div>
 	</article>
 
 	<article>
 		<h2>All users</h2>
 		<c:forEach var="user" items="${users}">
 			<p>
-			${user.email}
-			<input id="add${user.username}Button" value="Add friend" type="button" onclick="addFriend(${user.email})"/>  
+				${user.email} <input id="add${user.username}Button"
+					value="Add friend" type="button" onclick="addFriend('${user.email}')" />
 			</p>
 		</c:forEach>
 	</article>

@@ -28,7 +28,7 @@ public class FriendService {
 		try {
 			db.addFriend(user1_email, user2_email);
 		} catch (DbException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e.getMessage(),e);
 		}
 	}
 	

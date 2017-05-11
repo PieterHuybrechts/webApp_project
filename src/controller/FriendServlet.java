@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.taglibs.standard.tag.common.fmt.RequestEncodingSupport;
-
 import db.DbException;
 import domain.User;
 import service.FriendService;
@@ -24,6 +22,7 @@ public class FriendServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	FriendService friendService;
+	UserService userService;
 	
     public FriendServlet() {
         super();
@@ -40,7 +39,12 @@ public class FriendServlet extends HttpServlet {
 		properties.setProperty("url", context.getInitParameter("url"));
 		properties.setProperty("ssl", context.getInitParameter("ssl"));
 		properties.setProperty("sslfactory", context.getInitParameter("sslfactory"));
-		friendService = new FriendService(properties);
+		try {
+			userService = new UserService(properties);
+			friendService = new FriendService(properties);
+		} catch (DbException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,7 +55,7 @@ public class FriendServlet extends HttpServlet {
 		processRequest(request, response);
 	}
 	
-	private void processRequest(HttpServletRequest request,HttpServletResponse response){
+	private void processRequest(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String action = request.getParameter("action");
 		
 		switch (action) {
@@ -65,15 +69,19 @@ public class FriendServlet extends HttpServlet {
 		}
 	}
 	
-	private void addFriend(HttpServletRequest request,HttpServletResponse response){
-		User u1 = (User) request.getSession().getAttribute("user");
+	private void addFriend(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String email = request.getParameter("email");
+		User u1 = (User) request.getSession().getAttribute("user");
+		User u2 = userService.getUser(email);
 		
 		try {
 			friendService.addFriend(u1.getEmail(), email);
+			response.getWriter().write(u2.getUsername());
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			
 		}
+		
+		
 	}
 	
 	public void getAllFriends(HttpServletRequest requets,HttpServletResponse response){
