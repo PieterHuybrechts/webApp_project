@@ -49,7 +49,7 @@
 		<div id="friends">
 			<ul id="friendsL">
 				<c:forEach var="friend" items="${friends}">
-					<li>${friend.username}</li>
+					<li>${friend.username} - ${friend.currentStatus}</li>
 				</c:forEach>
 			</ul>
 		</div>

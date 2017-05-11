@@ -18,7 +18,6 @@ import domain.User;
 
 public class UserService {
 
-	private UserService instance;
 	
     private UserDb db;
     private Map<String, MenuItem> menuItems = new LinkedHashMap<String, MenuItem>();
@@ -28,6 +27,8 @@ public class UserService {
 
         createMenu();
     }
+    
+    //Create
 
     public void addUser(User u) throws ServiceException {
         try {
@@ -36,6 +37,36 @@ public class UserService {
 			throw new ServiceException(e.getMessage(),e);
 		}
     }
+    
+    //Read
+    
+    public User getUser(String email) throws ServiceException {
+        try {
+			return db.getUser(email);
+		} catch (DbException e) {
+			throw new ServiceException("User could not be found",e);
+		}
+    }
+    
+    public List<User> getAllUsers() throws ServiceException {
+        try {
+			return db.getAllUsers();
+		} catch (DbException e) {
+			throw new ServiceException("Could not get all users",e);
+		}
+    }
+    
+    //Update
+    
+    public void updateUser(User u) throws ServiceException {
+        try {
+			db.updateUser(u);
+		} catch (DbException e) {
+			throw new ServiceException(e.getMessage(),e);
+		}
+    }
+    
+    //Delete
 
     public void removeUser(User u) {
         db.removeUser(u);
@@ -49,28 +80,11 @@ public class UserService {
         db.removeAllUsers();
     }
 
-    public User getUser(String email) {
-        try {
-			return db.getUser(email);
-		} catch (DbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-        return null;
-    }
 
-    public List<User> getAllUsers() throws ServiceException {
-        try {
-			return db.getAllUsers();
-		} catch (DbException e) {
-			throw new ServiceException(e.getMessage());
-		}
-    }
 
-    public void updateUser(User u) {
-        db.updateUser(u);
-    }
+
+
+
 
     public User getAuthenticatedUser(String email, String password) throws ServiceException {
         User u = getUser(email);

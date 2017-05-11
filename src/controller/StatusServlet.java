@@ -1,13 +1,19 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import db.DbException;
 import domain.User;
+import service.ServiceException;
+import service.UserService;
 
 /**
  * Servlet implementation class StatusServlet
@@ -16,26 +22,35 @@ import domain.User;
 public class StatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
+	private UserService userService;
+	
 	public StatusServlet() {
 		super();
+	}
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		ServletContext context = getServletContext();
 
+		Properties properties = new Properties();
+		properties.setProperty("user", context.getInitParameter("user"));
+		properties.setProperty("password", context.getInitParameter("password"));
+		properties.setProperty("url", context.getInitParameter("url"));
+		properties.setProperty("ssl", context.getInitParameter("ssl"));
+		properties.setProperty("sslfactory", context.getInitParameter("sslfactory"));
+		try {
+			userService = new UserService(properties);
+		} catch (DbException e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
@@ -80,9 +95,15 @@ public class StatusServlet extends HttpServlet {
 	private void changeUserStatus(HttpServletRequest request,HttpServletResponse response,String status) throws IOException{
 		User u = (User) request.getSession().getAttribute("user");
 		u.setCurrentStatus(status);
-		request.getSession().setAttribute("user", u);
-		String status1 = u.getCurrentStatus();
-		response.getWriter().write(status1);
+		
+		try {
+			userService.updateUser(u);
+			request.getSession().setAttribute("user", u);
+			String status1 = u.getCurrentStatus();
+			response.getWriter().write(status1);
+		} catch (ServiceException e) {
+			
+		}
 	}
 
 }

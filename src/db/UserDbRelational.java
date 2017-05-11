@@ -41,15 +41,16 @@ public class UserDbRelational implements UserDb {
 	public void addUser(User u) throws DbException {
 		
 
-		String sql = "insert into r0466226_webApp.users(email,username,salt,password_hash) values(?,?,?,?)";
+		String sql = "insert into r0466226_webApp.users(email,username,status,salt,password_hash) values(?,?,?,?,?)";
 
 		try {
 			createConnection();
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, u.getEmail());
 			statement.setString(2, u.getUsername());
-			statement.setString(3, u.getSalt());
-			statement.setString(4, u.getHashedPasswd());
+			statement.setString(3, u.getCurrentStatus());
+			statement.setString(4, u.getSalt());
+			statement.setString(5, u.getHashedPasswd());
 			statement.execute();
 
 		} catch (SQLException | ClassNotFoundException e) {
@@ -89,14 +90,16 @@ public class UserDbRelational implements UserDb {
 			statement.setString(1, email);
 			ResultSet set = statement.executeQuery();
 			set.next();
-			String username = set.getString(2);
-			String salt = set.getString(3);
-			String passwordHash = set.getString(4);
+			String username = set.getString("username");
+			String status = set.getString("status");
+			String salt = set.getString("salt");
+			String passwordHash = set.getString("password_hash");
 
 			try {
 				u = new User();
 				u.setEmail(email);
 				u.setUsername(username);
+				u.setCurrentStatus(status);
 				u.setPassWdHash(passwordHash);
 				u.setSalt(salt);
 			} catch (DomainException e) {
@@ -128,12 +131,14 @@ public class UserDbRelational implements UserDb {
 			while (set.next()) {
 				String email = set.getString("email");
 				String username = set.getString("userName");
+				String status = set.getString("status");
 				String salt = set.getString("salt");
 				String passwordHash = set.getString("password_hash");
 				User u = new User();
 
 				u.setEmail(email);
 				u.setUsername(username);
+				u.setCurrentStatus(status);
 				u.setSalt(salt);
 				u.setPassWdHash(passwordHash);
 
@@ -151,8 +156,31 @@ public class UserDbRelational implements UserDb {
 	}
 
 	@Override
-	public void updateUser(User u) {
+	public void updateUser(User u) throws DbException {
+		String email=u.getEmail();
+		String username = u.getUsername();
+		String status = u.getCurrentStatus();
+		String salt = u.getSalt();
+		String passwordHash = u.getHashedPasswd();
 
+		String sql="UPDATE r0466226_WebApp.users SET username=?,status=?,salt=?,password_hash=? WHERE email=?";
+		
+		try{
+			createConnection();
+			statement=connection.prepareStatement(sql);
+			statement.setString(1, username);
+			statement.setString(2, status);
+			statement.setString(3, salt);
+			statement.setString(4, passwordHash);
+			statement.setString(5, email);
+			statement.execute();
+		}catch (SQLException | ClassNotFoundException e) {
+			throw new DbException("Couldn't update the user",e);
+		} finally {
+			try {statement.close();} catch (SQLException e) {}
+			closeConnection();
+		}
+		
 	}
 
 }

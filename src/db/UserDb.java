@@ -18,5 +18,5 @@ public interface UserDb {
 
     public List<User> getAllUsers() throws DbException;
 
-    public void updateUser(User u);
+    public void updateUser(User u) throws DbException;
 }

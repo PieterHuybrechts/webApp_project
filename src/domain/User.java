@@ -12,7 +12,7 @@ public class User {
     String currentStatus;
 
     public User(){
-    	currentStatus = "online";
+    	
     }
     
     public void setEmail(String email) throws DomainException{

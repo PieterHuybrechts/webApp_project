@@ -47,50 +47,39 @@ public class FriendServlet extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response){
 		processRequest(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response){
 		processRequest(request, response);
 	}
 	
-	private void processRequest(HttpServletRequest request,HttpServletResponse response) throws IOException{
+	private void processRequest(HttpServletRequest request,HttpServletResponse response){
 		String action = request.getParameter("action");
 		
 		switch (action) {
 		case "addFriend":
 			addFriend(request, response);
 			break;
-		case "getAllFriends":
-			getAllFriends(request,response);
 		default:
 			break;
 		}
 	}
 	
-	private void addFriend(HttpServletRequest request,HttpServletResponse response) throws IOException{
+	private void addFriend(HttpServletRequest request,HttpServletResponse response){
 		String email = request.getParameter("email");
 		User u1 = (User) request.getSession().getAttribute("user");
-		User u2 = userService.getUser(email);
 		
 		try {
+			User u2 = userService.getUser(email);
 			friendService.addFriend(u1.getEmail(), email);
-			response.getWriter().write(u2.getUsername());
-		} catch (ServiceException e) {
+			response.getWriter().write(u2.getUsername() + " - "+ u2.getCurrentStatus());
+		} catch (ServiceException | IOException e) {
 			
 		}
 		
 		
-	}
-	
-	public void getAllFriends(HttpServletRequest requets,HttpServletResponse response){
-		User u = (User) requets.getSession().getAttribute("user");
-		try {
-			List<User> friends = friendService.getAllFriendsOf(u);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

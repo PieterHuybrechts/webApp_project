@@ -214,6 +214,8 @@ public class Servlet extends HttpServlet {
 		String password = request.getParameter("password");
 
 		User u = new User();
+		
+		u.setCurrentStatus("Offline");
 
 		try {
 			u.setEmail(email);
@@ -268,6 +270,13 @@ public class Servlet extends HttpServlet {
 			destination = goToLogin(request, response);
 		} else {
 			remember(request, response, email);
+			u.setCurrentStatus("Online");
+			
+			try {
+				userService.updateUser(u);
+			} catch (ServiceException e) {
+				
+			}
 			request.getSession().setAttribute("user", u);
 			destination = goToChat(request, response);
 		}
@@ -276,6 +285,12 @@ public class Servlet extends HttpServlet {
 	}
 
 	private String logout(HttpServletRequest request, HttpServletResponse response) {
+		User u = (User) request.getSession().getAttribute("user");
+		u.setCurrentStatus("Offline");
+		try {
+			userService.updateUser(u);
+		} catch (ServiceException e) {}
+		
 		request.getSession().invalidate();
 		return goToHome(request, response);
 	}

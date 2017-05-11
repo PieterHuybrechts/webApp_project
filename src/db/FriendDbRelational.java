@@ -91,12 +91,14 @@ public class FriendDbRelational implements FriendDb{
 				String username = set.getString("userName");
 				String salt = set.getString("salt");
 				String passwordHash = set.getString("password_hash");
+				String status = set.getString("status");
 				
 
 				user.setEmail(mail);
 				user.setUsername(username);
 				user.setSalt(salt);
 				user.setPassWdHash(passwordHash);
+				user.setCurrentStatus(status);
 
 				users.add(user);
 			}
