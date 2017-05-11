@@ -20,7 +20,7 @@
 		<p>${user.username}</p>
 		<h3>Current Status:</h3>
 		<div id="status">
-			<p id="statusP">${user.currentStatus}</p>
+			<p id="statusP">${user.status}</p>
 		</div>
 		<h3>Change Status</h3>
 		<p>
@@ -49,7 +49,7 @@
 		<div id="friends">
 			<ul id="friendsL">
 				<c:forEach var="friend" items="${friends}">
-					<li>${friend.username} - ${friend.currentStatus}</li>
+					<li>${friend.username} - ${friend.status}</li>
 				</c:forEach>
 			</ul>
 		</div>

@@ -1,15 +1,18 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import service.UserService;
 
 public class User {
     String email;
     String username;
+    String status;
+    @JsonIgnore
     String salt;
+    @JsonIgnore
     String hashedPasswd;
     
-    //UserStatus currentStatus;
-    String currentStatus;
 
     public User(){
     	
@@ -82,11 +85,11 @@ public class User {
         return this.hashedPasswd;
     }
     
-    public void setCurrentStatus(String status){
-    	currentStatus = status;
+    public void setStatus(String status){
+    	this.status = status;
     }
     
-    public String getCurrentStatus(){
-    	return this.currentStatus;
+    public String getStatus(){
+    	return this.status;
     }
 }

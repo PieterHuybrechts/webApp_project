@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -10,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import db.DbException;
 import domain.User;
@@ -74,12 +76,17 @@ public class FriendServlet extends HttpServlet {
 		try {
 			User u2 = userService.getUser(email);
 			friendService.addFriend(u1.getEmail(), email);
-			response.getWriter().write(u2.getUsername() + " - "+ u2.getCurrentStatus());
+			//response.getWriter().write(u2.getUsername() + " - "+ u2.getStatus());
+			String friendJson = this.toJSON(u2);
+			response.getWriter().write(friendJson);
 		} catch (ServiceException | IOException e) {
 			
 		}
-		
-		
+	}
+	
+	private String toJSON(User user) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(user);
 	}
 
 }

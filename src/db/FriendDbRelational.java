@@ -98,7 +98,7 @@ public class FriendDbRelational implements FriendDb{
 				user.setUsername(username);
 				user.setSalt(salt);
 				user.setPassWdHash(passwordHash);
-				user.setCurrentStatus(status);
+				user.setStatus(status);
 
 				users.add(user);
 			}

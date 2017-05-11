@@ -215,7 +215,7 @@ public class Servlet extends HttpServlet {
 
 		User u = new User();
 		
-		u.setCurrentStatus("Offline");
+		u.setStatus("Offline");
 
 		try {
 			u.setEmail(email);
@@ -270,7 +270,7 @@ public class Servlet extends HttpServlet {
 			destination = goToLogin(request, response);
 		} else {
 			remember(request, response, email);
-			u.setCurrentStatus("Online");
+			u.setStatus("Online");
 			
 			try {
 				userService.updateUser(u);
@@ -286,7 +286,7 @@ public class Servlet extends HttpServlet {
 
 	private String logout(HttpServletRequest request, HttpServletResponse response) {
 		User u = (User) request.getSession().getAttribute("user");
-		u.setCurrentStatus("Offline");
+		u.setStatus("Offline");
 		try {
 			userService.updateUser(u);
 		} catch (ServiceException e) {}
@@ -298,17 +298,17 @@ public class Servlet extends HttpServlet {
 	private String switchStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		User u = (User) request.getSession().getAttribute("user");
 
-		String status = u.getCurrentStatus();
+		String status = u.getStatus();
 
 		if (status.equals("online")) {
-			u.setCurrentStatus("offline");
+			u.setStatus("offline");
 		} else if (status.equals("offline")) {
-			u.setCurrentStatus("online");
+			u.setStatus("online");
 		}
 
 		request.setAttribute("user", u);
 
-		response.getWriter().write(u.getCurrentStatus());
+		response.getWriter().write(u.getStatus());
 
 		return null;
 	}

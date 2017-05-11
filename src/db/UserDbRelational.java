@@ -48,7 +48,7 @@ public class UserDbRelational implements UserDb {
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, u.getEmail());
 			statement.setString(2, u.getUsername());
-			statement.setString(3, u.getCurrentStatus());
+			statement.setString(3, u.getStatus());
 			statement.setString(4, u.getSalt());
 			statement.setString(5, u.getHashedPasswd());
 			statement.execute();
@@ -99,7 +99,7 @@ public class UserDbRelational implements UserDb {
 				u = new User();
 				u.setEmail(email);
 				u.setUsername(username);
-				u.setCurrentStatus(status);
+				u.setStatus(status);
 				u.setPassWdHash(passwordHash);
 				u.setSalt(salt);
 			} catch (DomainException e) {
@@ -138,7 +138,7 @@ public class UserDbRelational implements UserDb {
 
 				u.setEmail(email);
 				u.setUsername(username);
-				u.setCurrentStatus(status);
+				u.setStatus(status);
 				u.setSalt(salt);
 				u.setPassWdHash(passwordHash);
 
@@ -159,7 +159,7 @@ public class UserDbRelational implements UserDb {
 	public void updateUser(User u) throws DbException {
 		String email=u.getEmail();
 		String username = u.getUsername();
-		String status = u.getCurrentStatus();
+		String status = u.getStatus();
 		String salt = u.getSalt();
 		String passwordHash = u.getHashedPasswd();
 

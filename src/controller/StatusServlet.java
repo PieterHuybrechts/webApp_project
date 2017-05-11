@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import db.DbException;
 import domain.User;
 import service.ServiceException;
@@ -94,16 +97,21 @@ public class StatusServlet extends HttpServlet {
 	
 	private void changeUserStatus(HttpServletRequest request,HttpServletResponse response,String status) throws IOException{
 		User u = (User) request.getSession().getAttribute("user");
-		u.setCurrentStatus(status);
+		u.setStatus(status);
 		
 		try {
 			userService.updateUser(u);
 			request.getSession().setAttribute("user", u);
-			String status1 = u.getCurrentStatus();
-			response.getWriter().write(status1);
+			String statusNewJSON = this.toJSON(u);
+			response.getWriter().write(statusNewJSON);
 		} catch (ServiceException e) {
 			
 		}
+	}
+	
+	private String toJSON(User user) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(user);
 	}
 
 }

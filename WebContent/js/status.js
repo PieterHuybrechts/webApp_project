@@ -28,22 +28,16 @@ function goCustom(){
 function getStatusData(){
 	if(xHRObject.readyState == 4){
 		if(xHRObject.status == 200){
-			var response = xHRObject.responseText;
-			var statusDiv = document.getElementById("status");
-			//var statusParagraph = statusDiv.childNodes[0];
+			alert(xHRObject.responseText);
+			var serverResponse = JSON.parse(xHRObject.responseText);
+			var status = serverResponse.status;
+			
 			var statusParagraph = document.getElementById("statusP");
 			
-			var statusText = document.createTextNode(response);
+			var statusText = document.createTextNode(status);
 			statusParagraph.removeChild(statusParagraph.childNodes[0]);
 			statusParagraph.appendChild(statusText);
 			
 		}
 	}
-}
-
-function addFriend(email){
-	console.log("add Friend");
-	xHRObject.open("POST", "FriendServlet?action=addFriend&email="+email, true);
-	xHRObject.onreadystatechange = getData;
-	xHRObject.send(null);
 }

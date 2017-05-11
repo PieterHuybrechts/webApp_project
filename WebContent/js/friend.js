@@ -1,7 +1,6 @@
 var xHRObject = new XMLHttpRequest();
 
 function addFriend(email) {
-	console.log("add Friend 1 "+ email);
 	xHRObject.open("POST", "FriendServlet?action=addFriend&email=" + email,
 			true);
 	xHRObject.onreadystatechange = getFriendData;
@@ -11,14 +10,16 @@ function addFriend(email) {
 function getFriendData() {
 	if (xHRObject.readyState == 4) {
 		if (xHRObject.status == 200) {
-			var response = xHRObject.responseText;
+			var serverResponse = JSON.parse(xHRObject.responseText);
+			var name = serverResponse.username;
+			var status = serverResponse.status;
 			
-			if(response!=""){
+			if(serverResponse!=""){
 				var friendsDiv = document.getElementById("friends");
 				// var statusParagraph = statusDiv.childNodes[0];
 				var friendsList = document.getElementById("friendsL");
 				
-				var friendText = document.createTextNode(response);
+				var friendText = document.createTextNode(name + " - " + status);
 				var friendListing = document.createElement("li");
 				friendListing.appendChild(friendText)
 				friendsList.appendChild(friendListing);				
