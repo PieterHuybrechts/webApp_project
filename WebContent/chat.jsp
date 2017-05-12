@@ -9,7 +9,7 @@
 <script type="text/javascript" src="js/friend.js"></script>
 <title>Insert title here</title>
 </head>
-<body>
+<body onload="refreshList()">
 	<jsp:include page="title.jsp">
 		<jsp:param name="title" value="Chat" />
 	</jsp:include>

@@ -7,24 +7,73 @@ function addFriend(email) {
 	xHRObject.send(null);
 }
 
+function refreshList() {
+	xHRObject.open("POST", "FriendServlet?action=getAllFriends", true);
+	xHRObject.onreadystatechange = getRefreshData;
+	xHRObject.send(null);
+}
+
+/*
+ * function getFriendData() { if (xHRObject.readyState == 4) { if
+ * (xHRObject.status == 200) { var serverResponse =
+ * JSON.parse(xHRObject.responseText); var name = serverResponse.username; var
+ * status = serverResponse.status;
+ * 
+ * if(serverResponse!=""){ var friendsDiv = document.getElementById("friends");
+ * var friendsList = document.getElementById("friendsL");
+ * 
+ * var friendText = document.createTextNode(name + " - " + status); var
+ * friendListing = document.createElement("li");
+ * friendListing.appendChild(friendText) friendsList.appendChild(friendListing); } } } }
+ */
+
 function getFriendData() {
 	if (xHRObject.readyState == 4) {
 		if (xHRObject.status == 200) {
-			var serverResponse = JSON.parse(xHRObject.responseText);
-			var name = serverResponse.username;
-			var status = serverResponse.status;
-			
-			if(serverResponse!=""){
-				var friendsDiv = document.getElementById("friends");
-				// var statusParagraph = statusDiv.childNodes[0];
-				var friendsList = document.getElementById("friendsL");
-				
+			var response = JSON.parse(xHRObject.responseText);
+			var friendsDiv = document.getElementById("friends");
+			friendsDiv.innerHTML = '';
+
+			var friendsList = document.createElement("ul");
+			friendsDiv.appendChild(friendsList);
+
+			for (var i = 0; i < Object.keys(response).length; i++) {
+				var name = response[i].username;
+				var status = response[i].status;
 				var friendText = document.createTextNode(name + " - " + status);
 				var friendListing = document.createElement("li");
-				friendListing.appendChild(friendText)
-				friendsList.appendChild(friendListing);				
+				friendListing.appendChild(friendText);
+				friendsList.appendChild(friendListing);
 			}
-			
 		}
 	}
+
+	//setTimeout("refreshList()", 5000);
+
 }
+
+function getRefreshData() {
+	if (xHRObject.readyState == 4) {
+		if (xHRObject.status == 200) {
+			var response = JSON.parse(xHRObject.responseText);
+			var friendsDiv = document.getElementById("friends");
+			friendsDiv.innerHTML = '';
+
+			var friendsList = document.createElement("ul");
+			friendsDiv.appendChild(friendsList);
+
+			for (var i = 0; i < Object.keys(response).length; i++) {
+				var name = response[i].username;
+				var status = response[i].status;
+				var friendText = document.createTextNode(name + " - " + status);
+				var friendListing = document.createElement("li");
+				friendListing.appendChild(friendText);
+				friendsList.appendChild(friendListing);
+			}
+		}
+	}
+
+	setTimeout("refreshList()", 5000);
+
+}
+

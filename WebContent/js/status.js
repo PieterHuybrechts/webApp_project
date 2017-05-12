@@ -28,7 +28,6 @@ function goCustom(){
 function getStatusData(){
 	if(xHRObject.readyState == 4){
 		if(xHRObject.status == 200){
-			alert(xHRObject.responseText);
 			var serverResponse = JSON.parse(xHRObject.responseText);
 			var status = serverResponse.status;
 			
