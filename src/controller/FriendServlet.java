@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -80,9 +79,10 @@ public class FriendServlet extends HttpServlet {
 	
 	private void getAllFriends(HttpServletRequest request, HttpServletResponse response) {
 		User u = (User) request.getSession().getAttribute("user");
+		List<User> friends;
 		
 		try {
-			List<User> friends = friendService.getAllFriendsOf(u);
+			friends = friendService.getAllFriendsOf(u);
 			String friendsJson = this.toJSON(friends);
 			response.getWriter().write(friendsJson);
 		} catch (ServiceException | IOException e) {
@@ -93,17 +93,12 @@ public class FriendServlet extends HttpServlet {
 	private void addFriend(HttpServletRequest request,HttpServletResponse response){
 		String email = request.getParameter("email");
 		User u1 = (User) request.getSession().getAttribute("user");
-		
+		User u2; 
+		List<User> friends;
 		
 		try {
-			friendService.addFriend(u1.getEmail(), email);
-			User u2 = userService.getUser(email);
-			
-			
-			//response.getWriter().write(u2.getUsername() + " - "+ u2.getStatus());
-			
-			
-			List<User> friends;
+			u2 = userService.getUser(email);
+			friendService.addFriend(u1.getEmail(), u2.getEmail());
 			
 			friends = friendService.getAllFriendsOf(u1);
 			String friendsJson = this.toJSON(friends);
@@ -113,15 +108,8 @@ public class FriendServlet extends HttpServlet {
 		}
 	}
 	
-	/*private String toJSON(User user) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(user);
-	}*/
-	
 	private String toJSON(List<User> users) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		
-		return mapper.writeValueAsString(users);
+		return new ObjectMapper().writeValueAsString(users);
 	}
 
 }

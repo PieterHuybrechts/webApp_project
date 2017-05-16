@@ -38,8 +38,7 @@ function getFriendData() {
 			friendsDiv.appendChild(friendsList);
 
 			for (var i = 0; i < Object.keys(response).length; i++) {
-				var name = response[i].username;
-				var status = response[i].status;
+				
 				var friendText = document.createTextNode(name + " - " + status);
 				var friendListing = document.createElement("li");
 				friendListing.appendChild(friendText);
