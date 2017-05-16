@@ -11,7 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import db.DbException;
+import db.FriendDbRelational;
 import db.UserDb;
 import db.UserDbRelational;
 import domain.User;
@@ -22,6 +27,23 @@ public class UserService {
     private UserDb db;
     private Map<String, MenuItem> menuItems = new LinkedHashMap<String, MenuItem>();
 
+    public UserService(){
+    	try {
+			Properties properties = new Properties();
+			Context env = (Context)new InitialContext().lookup("java:comp/env");
+			
+			properties.put("url", (String)env.lookup("url"));
+			properties.put("user", (String)env.lookup("user"));
+			properties.put("password", (String)env.lookup("password"));
+			properties.put("ssl", (String)env.lookup("ssl"));
+			properties.put("sslfactory", (String)env.lookup("sslfactory"));
+			
+			db = new UserDbRelational(properties);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+    }
+    
     public UserService(Properties properties) throws DbException {
         db = new UserDbRelational(properties);
 

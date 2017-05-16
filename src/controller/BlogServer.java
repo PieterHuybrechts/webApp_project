@@ -3,13 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.OnClose;
@@ -25,14 +20,8 @@ import domain.BlogMessage;
 import service.BlogMessageService;
 import service.ServiceException;
 
-@WebServlet("/BlogServlet")
 @ServerEndpoint("/echo")
-public class BlogServer extends HttpServlet{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -9153572736191221505L;
+public class BlogServer{
 
 	private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<Session>());
 
@@ -48,22 +37,7 @@ public class BlogServer extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response){
 		System.out.println("test2");
-	}
-	
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		ServletContext context = getServletContext();
-
-		Properties properties = new Properties();
-		properties.setProperty("user", context.getInitParameter("user"));
-		properties.setProperty("password", context.getInitParameter("password"));
-		properties.setProperty("url", context.getInitParameter("url"));
-		properties.setProperty("ssl", context.getInitParameter("ssl"));
-		properties.setProperty("sslfactory", context.getInitParameter("sslfactory"));
-		service = new BlogMessageService(properties);
-	}
-	
+	}	
 	
 	@OnOpen
 	public void onOpen(Session session) {

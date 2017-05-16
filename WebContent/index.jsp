@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,10 +30,13 @@
 		pharetra. Ut tristique auctor ligula tempor faucibus. Sed condimentum
 		sed lacus ut faucibus. In congue mauris ligula, quis suscipit lorem
 		tincidunt eu.</p>
-
 	<input type="text" id="messageinput2" />
 	<button type="button" onclick="send(2);">Send</button>
-	<div id="messages2"></div>
+	<div id="messages2">
+		<c:forEach var="message" items="${messageMap['2']}">
+			${message}<br/>
+		</c:forEach>
+	</div>
 
 	<h2>Blog Subject</h2>
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed

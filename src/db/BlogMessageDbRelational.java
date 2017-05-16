@@ -45,7 +45,7 @@ public class BlogMessageDbRelational implements BlogMessageDb {
 
 	@Override
 	public void addBlogMessage(BlogMessage message) throws DbException{
-		String sql = "INSERT into r0466226_webApp.blogmessages(subject,username) VALUES(?,?)";
+		String sql = "INSERT into r0466226_webApp.blogmessages(subject,message) VALUES(?,?)";
 		
 		try{
 			createConnection();
@@ -66,7 +66,7 @@ public class BlogMessageDbRelational implements BlogMessageDb {
 	public List<BlogMessage> getAllBlogMessages() throws DbException{
 		List<BlogMessage> messages = new ArrayList<BlogMessage>();
 		
-		String sql = "GET * FROM r0466226_webApp.blogmessages";
+		String sql = "SELECT * FROM r0466226_webApp.blogmessages";
 		
 		try {
 			createConnection();

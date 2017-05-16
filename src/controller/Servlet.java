@@ -2,7 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
@@ -15,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import db.DbException;
+import domain.BlogMessage;
 import domain.DomainException;
 import domain.User;
+import service.BlogMessageService;
 import service.FriendService;
 import service.MenuItem;
 import service.ServiceException;
@@ -28,6 +32,7 @@ public class Servlet extends HttpServlet {
 
 	private UserService userService;
 	private FriendService friendService;
+	private BlogMessageService blogMessageService;
 
 	public Servlet() {
 		super();
@@ -47,6 +52,7 @@ public class Servlet extends HttpServlet {
 		try {
 			userService = new UserService(properties);
 			friendService = new FriendService(properties);
+			blogMessageService = new BlogMessageService(properties);
 		} catch (DbException e) {
 			e.printStackTrace();
 		}
@@ -154,6 +160,20 @@ public class Servlet extends HttpServlet {
 	 */
 
 	private String goToHome(HttpServletRequest request, HttpServletResponse response) {
+		List<BlogMessage> messages = blogMessageService.getAllBlogMessages();
+		Map<String,List<String>> messageMap = new HashMap<>();
+		
+		for(BlogMessage m : messages){
+			if(!messageMap.containsKey(m.getSubject())){
+				List<String> list = new ArrayList<>();
+				list.add(m.getMessage());
+				messageMap.put(m.getSubject(), list);
+			}else{
+				messageMap.get(m.getSubject()).add(m.getMessage());
+			}
+		}
+		
+		request.setAttribute("messageMap", messageMap);
 		return "index.jsp";
 	}
 

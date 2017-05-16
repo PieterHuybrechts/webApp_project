@@ -25,20 +25,13 @@ public class BlogMessageService {
 		try {
 			Context env = (Context)new InitialContext().lookup("java:comp/env");
 			
-			String url = (String)env.lookup("url");
-			String user = (String)env.lookup("user");
-			String password = (String)env.lookup("password");
-			String ssl = (String)env.lookup("ssl");
-			String sslfactory = (String)env.lookup("sslfactory");
-			
-			properties.put("url", url);
-			properties.put("user", user);
-			properties.put("password", password);
-			properties.put("ssl", ssl);
-			properties.put("sslfactory", sslfactory);
+			properties.put("url", (String)env.lookup("url"));
+			properties.put("user", (String)env.lookup("user"));
+			properties.put("password", (String)env.lookup("password"));
+			properties.put("ssl", (String)env.lookup("ssl"));
+			properties.put("sslfactory", (String)env.lookup("sslfactory"));
 			
 			db = new BlogMessageDbRelational(properties);
-			
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -52,11 +45,11 @@ public class BlogMessageService {
 		}
 	}
 	
-	public List<BlogMessage> getAllBlogMessages() throws ServiceException{
+	public List<BlogMessage> getAllBlogMessages(){
 		try {
 			return db.getAllBlogMessages();
 		} catch (DbException e) {
-			throw new ServiceException(e.getMessage(),e);
+			return null;
 		}
 	}
 	

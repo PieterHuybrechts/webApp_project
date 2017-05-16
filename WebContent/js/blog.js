@@ -1,11 +1,8 @@
 var webSocket;
-var xHRObject = new XMLHttpRequest();
 
-var path = "ChatApp";
+var path = "chatApp";
 
 function openSocket() {
-	xHRObject.open("POST", "BlogServlet?action=test",true);
-	xHRObject.onreadystatechange = doNothing;
 	webSocket = new WebSocket("ws://localhost:8080/" + path + "/echo");
 	
 
@@ -49,5 +46,5 @@ function writeResponse(text) {
 	var message = response.message;
 
 	var messages = document.getElementById("messages"+subject);
-	messages.innerHTML += "<br/>" + message;
+	messages.innerHTML += message+"<br/>";
 }
