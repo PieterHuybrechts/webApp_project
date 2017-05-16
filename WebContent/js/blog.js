@@ -4,7 +4,8 @@ var xHRObject = new XMLHttpRequest();
 var path = "ChatApp";
 
 function openSocket() {
-	xHRObject.open("POST", "BlogServlet",true);
+	xHRObject.open("POST", "BlogServlet?action=test",true);
+	xHRObject.onreadystatechange = doNothing;
 	webSocket = new WebSocket("ws://localhost:8080/" + path + "/echo");
 	
 
@@ -19,6 +20,14 @@ function openSocket() {
 	webSocket.onclose = function(event) {
 		// writeResponse("Connection closed");
 	};
+}
+
+function getFriendData() {
+	if (xHRObject.readyState == 4) {
+		if (xHRObject.status == 200) {
+			
+		}
+	}
 }
 
 function send(subject) {

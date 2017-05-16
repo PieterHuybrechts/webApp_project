@@ -42,8 +42,12 @@ public class BlogServer extends HttpServlet{
 		super();
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response){
+	protected void doGet(HttpServletRequest request, HttpServletResponse response){
 		System.out.println("test");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("test2");
 	}
 	
 	@Override
@@ -75,6 +79,10 @@ public class BlogServer extends HttpServlet{
 
 	@OnMessage
 	public void onMessage(String message, Session session) {
+		if(service==null){
+			service = new BlogMessageService();
+		}
+		
 		System.out.println("Message from " + session.getId() + ": " + message);
 		
 		
