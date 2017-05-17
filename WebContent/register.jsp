@@ -5,30 +5,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+<link href="${pageContext.request.contextPath}/css/bootstrap.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/custom.css"
+	rel="stylesheet">
+
 </head>
 <body>
 	<jsp:include page="title.jsp">
-		<jsp:param name="title" value="Register" />
+		<jsp:param name="title" value="" />
 	</jsp:include>
+	
+	<div class="container">
+		<form class="form-signin" method="post" action="Servlet?action=register">
+			<h2 class="form-signin-heading">Register</h2>
+			<label for="name" class="sr-only">Name</label>  
+			<input id="name" name="name" type="text" value="${param.name}" class="form-control" placeholder="Name" required autofocus/>
+			
+			<label for="email" class="sr-only">Email</label>  
+			<input id="email" name="email" type="text" value="${param.email}" class="form-control" placeholder="Email address" required autofocus/>
+			<Label for="password" class="sr-only">Password</Label>
+			<input id="password" name="password" type="password" class="form-control" placeholder="Password" required/>
+			
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+		</form>
+	</div>
 
-	<form method="post" action="Servlet?action=register">
-		<fieldset>
-			<p>
-				<label>name</label> 
-				<input name="name" id="name" type="text" value="${param.name}"/> 
-			</p>
-			<p>
-				<label>email</label>
-				<input name="email" id="email" type="text" value="${param.email}"/> 
-			</p>
-			<p>
-				<label>password</label>
-				<input name="password" id="password" type="password"/> 
-			</p>
-		</fieldset>
-		<p>
-			<input name="save" id="save" type="submit" value="save" />
-		</p>	
-	</form>
+	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>');
+	</script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+
 </body>
 </html>

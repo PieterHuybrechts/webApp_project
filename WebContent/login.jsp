@@ -5,34 +5,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+<link href="${pageContext.request.contextPath}/css/bootstrap.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/custom.css"
+	rel="stylesheet">
+
 </head>
 <body>
-
 	<jsp:include page="title.jsp">
-		<jsp:param name="title" value="Login" />
+		<jsp:param name="title" value="" />
 	</jsp:include>
 
-	<form method="post" action="Servlet?action=login">
-		<fieldset>
-			<p>
-				<label for="email">Email</label> 
-				<input id="email" name="email" type="text" value="${email}" />
-			</p>
-			<p>
-				<Label for="password">Password</Label> 
-				<input id="password"name="password" type="password" />
-			</p>
-			<p>
-				<label for="remember">remember</label> 
-				<input id="remember"name="remember" type="checkbox" value="true" />
-			</p>
-		</fieldset>
+	<div class="container">
+		<form class="form-signin" method="post" action="Servlet?action=login">
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label for="email" class="sr-only">Email</label>  
+			<input id="email" name="email" type="text" value="${email}" class="form-control" placeholder="Email address" required autofocus/>
+			<Label for="password" class="sr-only">Password</Label>
+			<input id="password" name="password" type="password" class="form-control" placeholder="Password" required/>
+			<div class="checkbox">
+				<label> 
+					<input id="remember" name="remember" type="checkbox" value="true" >
+					Remember me
+				</label>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
+				in</button>
+		</form>
+	</div>
 
-	<p>
-		<input id="login" name="login" type="submit" value="login" />	
-	</p>
-	
-	</form>
+	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>');
+	</script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+
 
 </body>
 </html>

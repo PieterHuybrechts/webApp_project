@@ -1,6 +1,6 @@
 var webSocket;
 
-var path = "chatApp";
+var path = "ChatApp";
 
 function openSocket() {
 	webSocket = new WebSocket("ws://localhost:8080/" + path + "/echo");
@@ -45,6 +45,14 @@ function writeResponse(text) {
 	var subject = response.subject;
 	var message = response.message;
 
-	var messages = document.getElementById("messages"+subject);
-	messages.innerHTML += message+"<br/>";
+	var messageList = document.getElementById("messages"+subject);
+	var messageListing = document.createElement("li");
+	var messageText = document.createTextNode(message);
+	
+	messageListing.className+="list-group-item";
+	messageListing.appendChild(messageText);
+	messageList.appendChild(messageListing);
+	
+	//message.innerHtml += "<li class=\"list-group-item\">"+message+"</li>";
+	//messages.innerHTML += message+"<br/>";
 }

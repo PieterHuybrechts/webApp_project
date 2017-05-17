@@ -16,7 +16,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import db.DbException;
-import db.FriendDbRelational;
 import db.UserDb;
 import db.UserDbRelational;
 import domain.User;

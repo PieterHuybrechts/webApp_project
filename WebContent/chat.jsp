@@ -5,9 +5,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type="text/javascript" src="js/status.js"></script>
-<script type="text/javascript" src="js/friend.js"></script>
+
 <title>Insert title here</title>
+
+<link href="${pageContext.request.contextPath}/css/bootstrap.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/custom.css"
+	rel="stylesheet">
+
 </head>
 <body onload="refreshList()">
 	<jsp:include page="title.jsp">
@@ -49,7 +54,7 @@
 		<div id="friends">
 			<ul id="friendsL">
 				<c:forEach var="friend" items="${friends}">
-					<li>${friend.username} - ${friend.status}</li>
+					<li>${friend.username}- ${friend.status}</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -60,9 +65,21 @@
 		<c:forEach var="user" items="${users}">
 			<p>
 				${user.email} <input id="add${user.username}Button"
-					value="Add friend" type="button" onclick="addFriend('${user.email}')" />
+					value="Add friend" type="button"
+					onclick="addFriend('${user.email}')" />
 			</p>
 		</c:forEach>
 	</article>
+
+	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>');
+	</script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}js/status.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}js/friend.js"></script>
+
 </body>
 </html>
