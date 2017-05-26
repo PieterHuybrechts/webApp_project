@@ -55,6 +55,7 @@ function getRefreshData() {
 	if (xHRObject.readyState == 4) {
 		if (xHRObject.status == 200) {
 			var response = JSON.parse(xHRObject.responseText);
+			console.log(response);
 			var friendsDiv = document.getElementById("friends");
 			friendsDiv.innerHTML = '';
 
@@ -64,15 +65,21 @@ function getRefreshData() {
 			for (var i = 0; i < Object.keys(response).length; i++) {
 				var name = response[i].username;
 				var status = response[i].status;
+				var email = response[i].email;
 				var friendText = document.createTextNode(name + " - " + status);
+				
+				var chatButton = document.createElement("button");
+				chatButton.value="chat";
+				chatButton.id=email;
+				chatButton.onclick=openChat;
+			
 				var friendListing = document.createElement("li");
 				friendListing.appendChild(friendText);
+				friendListing.appendChild(chatButton);
 				friendsList.appendChild(friendListing);
 			}
 		}
 	}
 
-	setTimeout("refreshList()", 5000);
-
+	//setTimeout("refreshList()", 5000);
 }
-
