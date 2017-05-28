@@ -26,16 +26,9 @@
 			<div class="col-md-9" >
 
 				<h2>Friends</h2>
-				<div id="friends">
-					<ul id="friendsL">
-						<c:forEach var="friend" items="${friends}">
-							<li>${friend.username}-${friend.status}
-								<button onclick="openChat(${friend.email})">Chat</button>
-							</li>
-						</c:forEach>
+					<ul id="friendsList">
+						
 					</ul>
-				</div>
-
 			</div>
 
 			<div class="col-md-3" >
@@ -66,12 +59,16 @@
 						onclick="goCustom()" />
 				</form>
 			</div>
+			
+			
 
 
 
 		</div>
 
-		<article></article>
+		<div id="chatboxes" class="row">
+		
+		</div>
 
 		<article>
 			<h2>All users</h2>
@@ -84,6 +81,8 @@
 			</c:forEach>
 		</article>
 
+
+
 	</div>
 
 
@@ -94,6 +93,7 @@
 						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>');
 	</script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/js/status.js"></script>
 	<script type="text/javascript"
